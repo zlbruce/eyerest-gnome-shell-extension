@@ -15,10 +15,13 @@ Enable the extensionn use gnome-tweak-tool or gnome-shell-extension-tool
 
 ##Screenshot
 Menu:
+
 ![Gnome Shell Extension Eyerest Menu](http://i.imgur.com/4anCWvG.png)
 
 Setting:
+
 ![Gnome Shell Extension Eyerest Setting](http://i.imgur.com/0LGBqgJ.png)
 
 Notify:
+
 ![Gnome Shell Extension Eyerest Notify](http://i.imgur.com/afd3ocj.png)

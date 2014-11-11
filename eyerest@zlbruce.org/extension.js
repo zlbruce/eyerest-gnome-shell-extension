@@ -39,7 +39,7 @@ const eyerest_button = new Lang.Class({
         this._label = new St.Label({ style_class: 'panel-label', text: "Eyerest" });
         this.actor.add_actor(this._label);
 
-        // 添加菜单
+        // 娣诲姞鑿滃崟
         this._state_title = new PopupMenu.PopupMenuItem(_("State: "), { reactive: false });
         this._delay3_menu = new PopupMenu.PopupMenuItem(_("delay 3 min"));
         this._delay5_menu = new PopupMenu.PopupMenuItem(_("delay 5 min"));
@@ -50,7 +50,7 @@ const eyerest_button = new Lang.Class({
         this._rest_now_menu = new PopupMenu.PopupMenuItem(_("rest now"));
 
         this._pref_menu = new PopupMenu.PopupMenuItem(_("Preferences..."));
-        // 测试用的菜单
+        // 娴嬭瘯鐢ㄧ殑鑿滃崟
         //this._test_notify_menu = new PopupMenu.PopupMenuItem(_("notify"));
 
         this.menu.addMenuItem(this._state_title);
@@ -70,7 +70,7 @@ const eyerest_button = new Lang.Class({
         //this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         //this.menu.addMenuItem(this._test_notify_menu);
 
-        // 菜单事件
+        // 鑿滃崟浜嬩欢
         this._delay3_menu.connect('activate', Lang.bind(this, this._delay_seconds, 180));
         this._delay5_menu.connect('activate', Lang.bind(this, this._delay_seconds, 300));
         this._pause_menu.connect('activate', Lang.bind(this, function()
@@ -99,8 +99,10 @@ const eyerest_button = new Lang.Class({
                 if (this._gsmPrefs.get_state() == this._gsmPrefs.SHELL_APP_STATE_RUNNING){
                     this._gsmPrefs.activate();
                 } else {
-                    this._gsmPrefs.launch(global.display.get_current_time_roundtrip(),
-                        [Me.metadata.uuid],-1,null);
+                    let info = this._gsmPrefs.get_app_info();
+                    let timestamp = global.display.get_current_time_roundtrip();
+
+                    info.launch_uris([Me.metadata.uuid], global.create_app_launch_context(timestamp, -1));
                 }
             }));
 
@@ -108,7 +110,7 @@ const eyerest_button = new Lang.Class({
 
     _on_status_change : function(proxy, sender, [time_remain, st])
     {
-        // 格式化字符串
+        // 鏍煎紡鍖栧瓧绗︿覆
         let tm = new Date(time_remain * 1000);
         let tm_utc = convertDateToUTC(tm);
         let tm_string = tm_utc.toLocaleFormat(settings.get_string('formatstring'));

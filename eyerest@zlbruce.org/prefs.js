@@ -8,7 +8,7 @@ const Util = Me.imports.util;
 
 let settings;
 let settings_string;
-let settings_int;
+//let settings_int;
 
 function init() {
     Util.initTranslations(Me);
@@ -16,8 +16,8 @@ function init() {
     settings_string = {
         formatstring: {label: _("Display format in the panel menu")},
     };
-    settings_int = {
-    };
+    //settings_int = {
+    //};
 }
 
 function createStringSetting(setting)
@@ -48,7 +48,7 @@ function createStringSetting(setting)
 
     return hbox;
 }
-
+/*
 function createIntSetting(setting)
 {
     let hbox = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL });
@@ -79,6 +79,7 @@ function createIntSetting(setting)
 
     return hbox;
 }
+*/
 
 function buildPrefsWidget() 
 {
@@ -92,11 +93,11 @@ function buildPrefsWidget()
         let hbox = createStringSetting(setting);
         vbox.add(hbox);
     }
-    for (setting in settings_int)
-    {
-        let hbox = createIntSetting(setting);
-        vbox.add(hbox);
-    }
+    //for (setting in settings_int)
+    //{
+    //    let hbox = createIntSetting(setting);
+    //    vbox.add(hbox);
+    //}
 
     frame.add(vbox);
     frame.show_all();

@@ -1,5 +1,5 @@
 {
-    "shell-version": ["3.4.2"], 
+    "shell-version": ["3.14"], 
     "uuid": "eyerest@zlbruce.org", 
     "name": "eyerest", 
     "description": "eyerest control", 

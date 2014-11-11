@@ -14,7 +14,11 @@ Restart gnome-shell: press `Alt + F2`, input `r` and Enter
 Enable the extensionn use gnome-tweak-tool or gnome-shell-extension-tool
 
 ##Screenshot
-![Gnome Shell Extension Eyerest Notify](http://i.imgur.com/olRwd.png)
+Menu:
+![Gnome Shell Extension Eyerest Menu](http://i.imgur.com/4anCWvG.png)
 
-![Gnome Shell Extension Eyerest Pref](http://i.imgur.com/P2DWq.png)
+Setting:
+![Gnome Shell Extension Eyerest Setting](http://i.imgur.com/0LGBqgJ.png)
 
+Notify:
+![Gnome Shell Extension Eyerest Notify](http://i.imgur.com/afd3ocj.png)

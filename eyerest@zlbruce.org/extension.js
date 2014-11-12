@@ -30,12 +30,6 @@ const eyerest_button = new Lang.Class({
     {
         this.parent(0.0, 'Eyerest');
 
-        this._message_source = null;
-        this._message_notification = null;
-        this._message_label = null;
-
-        this._isNotified = false;
-
         this._label = new St.Label({ style_class: 'panel-label', text: "Eyerest" });
         this.actor.add_actor(this._label);
 
@@ -50,8 +44,6 @@ const eyerest_button = new Lang.Class({
         this._rest_now_menu = new PopupMenu.PopupMenuItem(_("rest now"));
 
         this._pref_menu = new PopupMenu.PopupMenuItem(_("Preferences..."));
-        // 测试用的菜单
-        //this._test_notify_menu = new PopupMenu.PopupMenuItem(_("notify"));
 
         this.menu.addMenuItem(this._state_title);
 
@@ -67,34 +59,29 @@ const eyerest_button = new Lang.Class({
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         this.menu.addMenuItem(this._pref_menu);
 
-        //this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-        //this.menu.addMenuItem(this._test_notify_menu);
-
         // 菜单事件
-        this._delay3_menu.connect('activate', Lang.bind(this, this._delay_seconds, 180));
-        this._delay5_menu.connect('activate', Lang.bind(this, this._delay_seconds, 300));
-        this._pause_menu.connect('activate', Lang.bind(this, function()
+        this._delay3_menu_sid = this._delay3_menu.connect('activate', Lang.bind(this, this._delay_seconds, 180));
+        this._delay5_menu_sid = this._delay5_menu.connect('activate', Lang.bind(this, this._delay_seconds, 300));
+        this._pause_menu_sid = this._pause_menu.connect('activate', Lang.bind(this, function()
             {
                 this._eyerest_proxy.pauseRemote();
             }));
-        this._continue_menu.connect('activate', Lang.bind(this, function()
+        this._continue_menu_sid = this._continue_menu.connect('activate', Lang.bind(this, function()
             {
                 this._eyerest_proxy.unpauseRemote();
             }));
-        this._rest_now_menu.connect('activate', Lang.bind(this, function()
+        this._rest_now_menu_sid = this._rest_now_menu.connect('activate', Lang.bind(this, function()
             {
                 this._eyerest_proxy.rest_nowRemote();
             }));
 
-        //this._test_notify_menu.connect('activate', Lang.bind(this, this._notify_time));
-
         // Dbus
         this._eyerest_proxy = dbus_interface.eyerest_dbus();
-        this._eyerest_proxy.connectSignal('status', Lang.bind(this, this._on_status_change));
+        this._eyerest_proxy_sid = this._eyerest_proxy.connectSignal('status', Lang.bind(this, this._on_status_change));
 
         this._gsmPrefs = Shell.AppSystem.get_default().lookup_app('gnome-shell-extension-prefs.desktop');
 
-        this._pref_menu.connect('activate', Lang.bind(this, function () 
+        this._pref_menu_sid = this._pref_menu.connect('activate', Lang.bind(this, function () 
             {
                 if (this._gsmPrefs.get_state() == this._gsmPrefs.SHELL_APP_STATE_RUNNING){
                     this._gsmPrefs.activate();
@@ -125,7 +112,42 @@ const eyerest_button = new Lang.Class({
 
     destroy: function()
     {
-        this._destroy_message_notify();
+
+        if (this._delay3_menu_sid)
+        {
+            this._delay3_menu.disconnect(this._delay3_menu_sid);
+        }
+
+        if (this._delay5_menu_sid)
+        {
+            this._delay5_menu.disconnect(this._delay5_menu_sid);
+        }
+
+        if (this._pause_menu_sid)
+        {
+            this._pause_menu.disconnect(this._pause_menu_sid);
+        }
+
+        if (this._continue_menu_sid)
+        {
+            this._continue_menu.disconnect(this._continue_menu_sid);
+        }
+
+        if (this._rest_now_menu_sid)
+        {
+            this._rest_now_menu.disconnect(this._rest_now_menu_sid);
+        }
+
+        if (this._pref_menu_sid)
+        {
+            this._pref_menu.disconnect(this._pref_menu_sid);
+        }
+
+        if (this._eyerest_proxy_sid)
+        {
+            this._eyerest_proxy.disconnectSignal(this._eyerest_proxy_sid);
+        }
+
         this.parent();
     },
 
@@ -140,15 +162,11 @@ function init()
 }
 
 function enable() {
-    //Main.panel._rightBox.insert_child_at_index(button.actor, 0);
-    //Main.panel._menus.addMenu(button.menu);
-    
     eye_button = new eyerest_button();
     Main.panel.addToStatusArea('eyerest', eye_button);
 }
 
 function disable() {
-    //Main.panel._rightBox.remove_child(button.actor);
     eye_button.destroy();
     eye_button = null;
 }

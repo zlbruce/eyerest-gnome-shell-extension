@@ -88,7 +88,7 @@ function buildPrefsWidget()
     let vbox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL,
                              margin: 20, margin_top: 10 });
 
-    for (setting in settings_string)
+    for (let setting in settings_string)
     {
         let hbox = createStringSetting(setting);
         vbox.add(hbox);
